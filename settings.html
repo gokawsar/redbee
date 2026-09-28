@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Settings — Redbee.dev</title>
+<meta name="description" content="Internal settings panel for managing Redbee.dev website configuration.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="canonical" content="https://redbee.dev/settings.html">
+<link rel="canonical" href="https://redbee.dev/settings.html">
+<link rel="icon" href="assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="css/templatemo-axis-industrial.css">
+<style>
+.settings-page {
+    padding: clamp(4rem, 10vw, 10rem) clamp(1rem, 4vw, 4rem);
+    max-width: 800px;
+    margin: 0 auto;
+}
+.settings-page h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: var(--fs-h1);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+.settings-page .section__eyebrow {
+    color: var(--safety);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    margin-bottom: 2rem;
+}
+.settings-group {
+    border: var(--border);
+    box-shadow: var(--shadow);
+    padding: clamp(1.2rem, 2vw, 2rem);
+    margin-bottom: 2rem;
+    background: var(--base);
+}
+.settings-group h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: var(--fs-h3);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    color: var(--safety);
+}
+.settings-group label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.4rem;
+    opacity: 0.7;
+}
+.settings-group input[type="text"],
+.settings-group input[type="url"],
+.settings-group input[type="number"],
+.settings-group input[type="color"] {
+    width: 100%;
+    border: 2px solid var(--ink);
+    padding: 0.7rem 0.9rem;
+    background: var(--base);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--fs-data);
+    margin-bottom: 1rem;
+    outline: none;
+}
+.settings-group input[type="color"] {
+    height: 44px;
+    padding: 0.3rem;
+    cursor: pointer;
+}
+.settings-group input:focus {
+    box-shadow: 4px 4px 0px var(--ink);
+}
+.btn--save {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.8em 2em;
+    border: var(--border);
+    cursor: pointer;
+    background: var(--safety);
+    color: var(--base);
+    box-shadow: var(--shadow);
+    display: inline-block;
+    text-align: center;
+    transition: none;
+}
+.btn--save:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0px var(--ink);
+}
+.btn--save:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 var(--ink);
+}
+.btn--reset {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.8em 2em;
+    border: var(--border);
+    cursor: pointer;
+    background: var(--base);
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    display: inline-block;
+    text-align: center;
+    transition: none;
+    margin-left: 1rem;
+}
+.btn--reset:hover {
+    background: var(--ink);
+    color: var(--base);
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0px var(--ink);
+}
+.settings-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.settings-status.visible {
+    opacity: 1;
+}
+.settings-status.success { color: var(--term-green); }
+.settings-status.error { color: var(--safety); }
+.login-panel,
+.settings-locked {
+    border: var(--border);
+    box-shadow: var(--shadow);
+    background: var(--base);
+    padding: clamp(1.5rem, 3vw, 3rem);
+    margin-bottom: 2rem;
+    max-width: 520px;
+}
+.login-panel h3,
+.settings-locked h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: var(--fs-h3);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: var(--safety);
+}
+.login-panel label,
+.settings-locked label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.4rem;
+    opacity: 0.7;
+}
+.login-panel input[type="password"],
+.settings-locked input[type="password"] {
+    width: 100%;
+    border: 2px solid var(--ink);
+    padding: 0.7rem 0.9rem;
+    background: var(--base);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--fs-data);
+    margin-bottom: 1rem;
+    outline: none;
+}
+.login-panel input[type="password"]:focus,
+.settings-locked input[type="password"]:focus {
+    box-shadow: 4px 4px 0px var(--ink);
+}
+.login-panel .btn--save {
+    display: inline-block;
+}
+.login-panel .login-error {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--fs-micro);
+    color: var(--safety);
+    margin-top: 1rem;
+    display: none;
+}
+.login-panel .login-error.visible {
+    display: block;
+}
+.settings-locked p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--fs-data);
+    opacity: 0.7;
+    margin-bottom: 1.5rem;
+}
+.password-section {
+    border-top: 2px solid var(--ink);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+}
+.password-section h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: var(--fs-h3);
+    text-transform: uppercase;
+    color: var(--safety);
+    margin-bottom: 1rem;
+}
+.password-section .btn--save {
+    display: inline-block;
+}
+.back-link {
+    display: inline-block;
+    margin-top: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+.back-link:hover {
+    opacity: 1;
+    color: var(--safety);
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header__inner">
+        <div class="header__left">
+            <a href="index.html" class="header__logo">
+                <img class="header__logo-img" src="assets/redbee_logo_for_white_bg.png" alt="Redbee.dev" loading="lazy">
+            </a>
+            <span class="header__sep"></span>
+            <span class="header__product">Settings</span>
+        </div>
+        <nav class="header__nav" id="headerNav">
+            <a href="index.html">Home</a>
+            <a href="landing-page.html">Product</a>
+            <a href="settings.html" class="active">Settings</a>
+        </nav>
+        <button class="header__burger" id="headerBurger" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+</header>
+
+<main class="settings-page" id="settingsPage">
+    <div class="section__eyebrow">// System Settings</div>
+    <h2>Interchangeable<br>Settings</h2>
+    <p style="font-size:var(--fs-data);opacity:0.5;margin-bottom:2rem;max-width:520px;">Edit any value below. Changes apply instantly to all pages that pull from this system.</p>
+
+    <!-- Login / Setup Panel -->
+    <div class="login-panel" id="loginPanel">
+        <h3 id="loginPanelTitle">Set Admin Password</h3>
+        <p id="loginPanelDesc">First deployment detected. Please set an admin password to secure this settings page.</p>
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter new password" autocomplete="new-password">
+        <label for="loginConfirm">Confirm Password</label>
+        <input type="password" id="loginConfirm" name="loginConfirm" placeholder="Confirm password" autocomplete="new-password">
+        <button type="button" id="btnLoginSetup" class="btn--save">Set Password</button>
+        <div id="loginError" class="login-error"></div>
+    </div>
+
+    <!-- Locked State (shown when not logged in) -->
+    <div class="settings-locked" id="lockedPanel" style="display:none;">
+        <h3>Authentication Required</h3>
+        <p>Please enter your password to access settings.</p>
+        <label for="authPassword">Password</label>
+        <input type="password" id="authPassword" name="authPassword" placeholder="Enter your password" autocomplete="current-password">
+        <button type="button" id="btnLogin" class="btn--save">Login</button>
+        <div id="authError" class="login-error"></div>
+    </div>
+
+    <!-- Settings Form -->
+    <form id="settingsForm" class="settings-form" style="display:none;">
+        <div class="settings-group">
+            <h3>Branding</h3>
+            <label for="brandName">Brand Name</label>
+            <input type="text" id="brandName" name="brandName" value="Redbee.dev">
+            <label for="tagline">Tagline</label>
+            <input type="text" id="tagline" name="tagline" value="Growth Systems">
+            <label for="footerCopy">Footer Copyright</label>
+            <input type="text" id="footerCopy" name="footerCopy" value="© 2026 Redbee.dev. All rights reserved.">
+        </div>
+
+        <div class="settings-group">
+            <h3>Links</h3>
+            <label for="calendlyLink">Calendar Link (Calendly)</label>
+            <input type="url" id="calendlyLink" name="calendlyLink" value="https://calendly.com/redbee-dev/discovery">
+            <label for="whatsappLink">WhatsApp Support Link</label>
+            <input type="url" id="whatsappLink" name="whatsappLink" value="https://wa.me/8801301522070">
+            <label for="emailPrimary">Primary Email</label>
+            <input type="text" id="emailPrimary" name="emailPrimary" value="info@redbee.dev">
+            <label for="emailSecondary">Secondary Email</label>
+            <input type="text" id="emailSecondary" name="emailSecondary" value="xar.redbee@gmail.com">
+        </div>
+
+        <div class="settings-group">
+            <h3>Colors</h3>
+            <label for="colorSafety">Primary Accent (--safety)</label>
+            <input type="color" id="colorSafety" name="colorSafety" value="#FF3E00">
+            <label for="colorBase">Background (--base)</label>
+            <input type="color" id="colorBase" name="colorBase" value="#FFFFFF">
+            <label for="colorInk">Text (--ink)</label>
+            <input type="color" id="colorInk" name="colorInk" value="#000000">
+            <label for="colorSurface">Surface (--surface)</label>
+            <input type="color" id="colorSurface" name="colorSurface" value="#F5F5F0">
+            <label for="colorMuted">Muted (--muted)</label>
+            <input type="color" id="colorMuted" name="colorMuted" value="#888888">
+        </div>
+
+        <div class="settings-group">
+            <h3>Hero Stats</h3>
+            <label for="heroProjects">Projects Delivered</label>
+            <input type="text" id="heroProjects" name="heroProjects" value="50+">
+            <label for="heroSatisfaction">Client Satisfaction</label>
+            <input type="text" id="heroSatisfaction" name="heroSatisfaction" value="4.9★">
+            <label for="heroExpertise">Years Expertise</label>
+            <input type="text" id="heroExpertise" name="heroExpertise" value="12+">
+        </div>
+
+        <div class="settings-group">
+            <h3>Service Prices</h3>
+            <label for="serviceLandingPrice">Landing Pages</label>
+            <input type="text" id="serviceLandingPrice" name="serviceLandingPrice" value="$650–$1,200">
+            <label for="serviceWordPressPrice">WordPress / React</label>
+            <input type="text" id="serviceWordPressPrice" name="serviceWordPressPrice" value="$900–$1,800">
+            <label for="serviceEcommercePrice">E-Commerce Stores</label>
+            <input type="text" id="serviceEcommercePrice" name="serviceEcommercePrice" value="$1,500–$3,500">
+            <label for="serviceAdminVaPrice">Executive / Admin VA</label>
+            <input type="text" id="serviceAdminVaPrice" name="serviceAdminVaPrice" value="$999/mo">
+            <label for="serviceRealEstateVaPrice">Real Estate / Legal VA</label>
+            <input type="text" id="serviceRealEstateVaPrice" name="serviceRealEstateVaPrice" value="$1,199/mo">
+            <label for="serviceAppointmentPrice">B2B Appointment Setting</label>
+            <input type="text" id="serviceAppointmentPrice" name="serviceAppointmentPrice" value="$1,399/mo">
+        </div>
+
+        <div class="settings-group">
+            <h3>Social Links</h3>
+            <label for="socialLinkedIn">LinkedIn</label>
+            <input type="url" id="socialLinkedIn" name="socialLinkedIn" value="#">
+            <label for="socialGitHub">GitHub</label>
+            <input type="url" id="socialGitHub" name="socialGitHub" value="#">
+            <label for="socialX">X / Twitter</label>
+            <input type="url" id="socialX" name="socialX" value="#">
+            <label for="socialYouTube">YouTube</label>
+            <input type="url" id="socialYouTube" name="socialYouTube" value="#">
+        </div>
+
+        <button type="submit" class="btn--save">Save Settings</button>
+        <button type="button" id="btnLogout" class="btn--reset">Logout</button>
+        <button type="button" id="btnReset" class="btn--reset">Reset to Defaults</button>
+        <div id="settingsStatus" class="settings-status"></div>
+    </form>
+
+    <!-- Password Change Section -->
+    <div class="password-section" id="passwordSection" style="display:none;">
+        <h3>Change Password</h3>
+        <label for="currentPassword">Current Password</label>
+        <input type="password" id="currentPassword" name="currentPassword" placeholder="Current password">
+        <label for="newPassword">New Password</label>
+        <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password">
+        <label for="newPasswordConfirm">Confirm New Password</label>
+        <input type="password" id="newPasswordConfirm" name="newPasswordConfirm" placeholder="Confirm new password">
+        <button type="button" id="btnChangePassword" class="btn--save">Update Password</button>
+        <div id="passwordStatus" class="settings-status"></div>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Home</a>
+</main>
+
+<script>
+(function () {
+    var settingsForm = document.getElementById('settingsForm');
+    var statusEl = document.getElementById('settingsStatus');
+    var btnLogout = document.getElementById('btnLogout');
+    var btnReset = document.getElementById('btnReset');
+    var loginPanel = document.getElementById('loginPanel');
+    var loginPanelTitle = document.getElementById('loginPanelTitle');
+    var loginPanelDesc = document.getElementById('loginPanelDesc');
+    var loginPassword = document.getElementById('loginPassword');
+    var loginConfirm = document.getElementById('loginConfirm');
+    var btnLoginSetup = document.getElementById('btnLoginSetup');
+    var loginError = document.getElementById('loginError');
+    var lockedPanel = document.getElementById('lockedPanel');
+    var authPassword = document.getElementById('authPassword');
+    var btnLogin = document.getElementById('btnLogin');
+    var authError = document.getElementById('authError');
+    var passwordSection = document.getElementById('passwordSection');
+    var currentPassword = document.getElementById('currentPassword');
+    var newPassword = document.getElementById('newPassword');
+    var newPasswordConfirm = document.getElementById('newPasswordConfirm');
+    var btnChangePassword = document.getElementById('btnChangePassword');
+    var passwordStatus = document.getElementById('passwordStatus');
+    var isLoggedIn = false;
+    var isSetupMode = false;
+
+    function showStatus(msg, type) {
+        statusEl.textContent = msg;
+        statusEl.className = 'settings-status visible ' + type;
+        setTimeout(function () {
+            statusEl.classList.remove('visible');
+        }, 3000);
+    }
+
+    function showLoginError(msg) {
+        loginError.textContent = msg;
+        loginError.classList.add('visible');
+        setTimeout(function () {
+            loginError.classList.remove('visible');
+        }, 3000);
+    }
+
+    function showAuthError(msg) {
+        authError.textContent = msg;
+        authError.classList.add('visible');
+        setTimeout(function () {
+            authError.classList.remove('visible');
+        }, 3000);
+    }
+
+    function showPasswordStatus(msg, type) {
+        passwordStatus.textContent = msg;
+        passwordStatus.className = 'settings-status visible ' + type;
+        setTimeout(function () {
+            passwordStatus.classList.remove('visible');
+        }, 3000);
+    }
+
+    function populateForm() {
+        var s = RedbeeSettings.load();
+        settingsForm.querySelectorAll('input').forEach(function (input) {
+            if (s[input.name] !== undefined) {
+                input.value = s[input.name];
+            }
+        });
+    }
+
+    function hashPassword(password) {
+        return new Promise(function (resolve, reject) {
+            var encoder = new TextEncoder();
+            crypto.subtle.digest('SHA-256', encoder.encode(password)).then(function (buffer) {
+                resolve(Array.from(new Uint8Array(buffer)).map(function (b) {
+                    return b.toString(16).padStart(2, '0');
+                }).join(''));
+            }).catch(reject);
+        });
+    }
+
+    function getAuthState() {
+        try {
+            var auth = JSON.parse(localStorage.getItem('redbee_auth'));
+            return auth || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function setAuthState(auth) {
+        localStorage.setItem('redbee_auth', JSON.stringify(auth));
+    }
+
+    function isLoggedInSession() {
+        try {
+            var auth = JSON.parse(localStorage.getItem('redbee_auth'));
+            return auth && auth.session === true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function showLoginUI() {
+        settingsForm.style.display = 'none';
+        passwordSection.style.display = 'none';
+        lockedPanel.style.display = 'none';
+        loginPanel.style.display = 'block';
+    }
+
+    function showLockedUI() {
+        loginPanel.style.display = 'none';
+        settingsForm.style.display = 'none';
+        passwordSection.style.display = 'none';
+        lockedPanel.style.display = 'block';
+    }
+
+    function showSettingsUI() {
+        loginPanel.style.display = 'none';
+        lockedPanel.style.display = 'none';
+        settingsForm.style.display = 'block';
+        passwordSection.style.display = 'block';
+        populateForm();
+        RedbeeSettings.apply(RedbeeSettings.load());
+    }
+
+    function setLoginUI(mode) {
+        if (mode === 'setup') {
+            loginPanelTitle.textContent = 'Set Admin Password';
+            loginPanelDesc.textContent = 'First deployment detected. Please set an admin password to secure this settings page.';
+            loginPassword.placeholder = 'Enter new password';
+            loginConfirm.placeholder = 'Confirm password';
+            btnLoginSetup.textContent = 'Set Password';
+        } else {
+            loginPanelTitle.textContent = 'Admin Login';
+            loginPanelDesc.textContent = 'Enter your password to access the settings page.';
+            loginPassword.placeholder = 'Enter password';
+            loginConfirm.placeholder = 'Confirm password';
+            btnLoginSetup.textContent = 'Login';
+        }
+    }
+
+    function validatePassword(password) {
+        return password && password.length >= 6;
+    }
+
+    async function handleLoginSetup() {
+        var password = loginPassword.value;
+        var confirm = loginConfirm.value;
+        if (!validatePassword(password)) {
+            showLoginError('Password must be at least 6 characters long.');
+            return;
+        }
+        if (password !== confirm) {
+            showLoginError('Passwords do not match.');
+            return;
+        }
+        try {
+            var hash = await hashPassword(password);
+            setAuthState({
+                hash: hash,
+                createdAt: Date.now(),
+                setupComplete: true,
+                session: true
+            });
+            isLoggedIn = true;
+            showSettingsUI();
+            showStatus('Password set. You are now logged in.', 'success');
+        } catch (e) {
+            showLoginError('Failed to set password. Please try again.');
+        }
+    }
+
+    async function handleLogin() {
+        var password = loginPassword.value;
+        if (!validatePassword(password)) {
+            showLoginError('Password must be at least 6 characters long.');
+            return;
+        }
+        try {
+            var hash = await hashPassword(password);
+            var auth = getAuthState();
+            if (auth && auth.hash === hash) {
+                setAuthState({
+                    hash: auth.hash,
+                    createdAt: auth.createdAt,
+                    setupComplete: true,
+                    session: true
+                });
+                isLoggedIn = true;
+                showSettingsUI();
+                showStatus('Login successful. You are now logged in.', 'success');
+            } else {
+                showLoginError('Incorrect password.');
+            }
+        } catch (e) {
+            showLoginError('Login failed. Please try again.');
+        }
+    }
+
+    function handleLogout() {
+        isLoggedIn = false;
+        localStorage.removeItem('redbee_auth');
+        loginPassword.value = '';
+        loginConfirm.value = '';
+        authPassword.value = '';
+        currentPassword.value = '';
+        newPassword.value = '';
+        newPasswordConfirm.value = '';
+        showLoginUI();
+        setLoginUI('login');
+    }
+
+    async function handlePasswordChange() {
+        var current = currentPassword.value;
+        var next = newPassword.value;
+        var confirm = newPasswordConfirm.value;
+        if (!validatePassword(next)) {
+            showPasswordStatus('New password must be at least 6 characters long.', 'error');
+            return;
+        }
+        if (next !== confirm) {
+            showPasswordStatus('New passwords do not match.', 'error');
+            return;
+        }
+        try {
+            var currentHash = await hashPassword(current);
+            var auth = getAuthState();
+            if (!auth || currentHash !== auth.hash) {
+                showPasswordStatus('Current password is incorrect.', 'error');
+                return;
+            }
+            var nextHash = await hashPassword(next);
+            setAuthState({
+                hash: nextHash,
+                createdAt: auth.createdAt,
+                setupComplete: true,
+                session: true
+            });
+            currentPassword.value = '';
+            newPassword.value = '';
+            newPasswordConfirm.value = '';
+            showPasswordStatus('Password updated successfully.', 'success');
+        } catch (e) {
+            showPasswordStatus('Failed to update password. Please try again.', 'error');
+        }
+    }
+
+    btnLogout.addEventListener('click', handleLogout);
+    btnLoginSetup.addEventListener('click', handleLoginSetup);
+    btnLogin.addEventListener('click', handleLogin);
+    btnChangePassword.addEventListener('click', handlePasswordChange);
+
+    settingsForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!isLoggedIn) {
+            showLoginError('Please log in before saving settings.');
+            return;
+        }
+        var settings = {};
+        settingsForm.querySelectorAll('input').forEach(function (input) {
+            settings[input.name] = input.value;
+        });
+        var ok = RedbeeSettings.save(settings);
+        if (ok) {
+            RedbeeSettings.apply(settings);
+            showStatus('Settings saved and applied.', 'success');
+        } else {
+            showStatus('Failed to save settings.', 'error');
+        }
+    });
+
+    btnReset.addEventListener('click', function () {
+        if (!isLoggedIn) {
+            showLoginError('Please log in before resetting settings.');
+            return;
+        }
+        if (!confirm('Reset all settings to defaults?')) return;
+        RedbeeSettings.save(RedbeeSettings.defaults);
+        populateForm();
+        RedbeeSettings.apply(RedbeeSettings.defaults);
+        showStatus('Settings reset to defaults.', 'success');
+    });
+
+    var auth = getAuthState();
+    if (!auth || !auth.setupComplete) {
+        isSetupMode = true;
+        setLoginUI('setup');
+        showLoginUI();
+    } else if (isLoggedInSession()) {
+        isLoggedIn = true;
+        showSettingsUI();
+    } else {
+        setLoginUI('login');
+        showLockedUI();
+    }
+})();
+</script>
+</body>
+</html>
