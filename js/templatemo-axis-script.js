@@ -63,7 +63,7 @@ https://templatemo.com/tm-619-axis-industrial
             '#launchpad .stack__card',
             '#portfolio .bento-card',
             '#contact .bento-card',
-            '#contact .stack__card',
+            '#contact .stack__card:not(.contact-form-card)',
             '#about .about__text',
             '#about .about__links'
         ];
@@ -77,7 +77,7 @@ https://templatemo.com/tm-619-axis-industrial
         });
 
         var childMotionRoots = document.querySelectorAll(
-            '#services .bento-card, #launchpad .stack__card, #portfolio .bento-card, #contact .bento-card, #contact .stack__card'
+            '#services .bento-card, #launchpad .stack__card, #portfolio .bento-card, #contact .bento-card, #contact .stack__card:not(.contact-form-card)'
         );
 
         childMotionRoots.forEach(function (root) {
@@ -158,6 +158,9 @@ https://templatemo.com/tm-619-axis-industrial
         }
 
         function prepBars(root) {
+            if (!root) {
+                return;
+            }
             var bars = root.querySelectorAll('.bar-track__fill');
             bars.forEach(function (bar) {
                 if (!bar.dataset.targetWidth) {
@@ -168,6 +171,9 @@ https://templatemo.com/tm-619-axis-industrial
         }
 
         function revealBars(root) {
+            if (!root) {
+                return;
+            }
             var bars = root.querySelectorAll('.bar-track__fill');
             bars.forEach(function (bar, index) {
                 var targetWidth = bar.dataset.targetWidth || bar.style.width || '100%';
@@ -296,7 +302,66 @@ https://templatemo.com/tm-619-axis-industrial
         });
     }
 
-    // Removed duplicate triggerHeroAnimations and setTimeout (lines 272-302) - they are inside the if block now
+    /* ---- HubSpot Meetings modal ---- */
+    var meetingButtons = document.querySelectorAll('.js-meetings-btn');
+    if (meetingButtons.length) {
+        var meetingModal = document.createElement('div');
+        meetingModal.className = 'meetings-modal';
+        meetingModal.setAttribute('aria-hidden', 'true');
+        meetingModal.innerHTML =
+            '<div class="meetings-modal__backdrop" data-meetings-close></div>' +
+            '<div class="meetings-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="meetings-modal-title">' +
+                '<div class="meetings-modal__header">' +
+                    '<h2 id="meetings-modal-title">Book a meeting</h2>' +
+                    '<button type="button" class="meetings-modal__close" aria-label="Close meeting booking" data-meetings-close>&times;</button>' +
+                '</div>' +
+                '<div class="meetings-iframe-container" data-src="https://meetings-na2.hubspot.com/md-kawsar?embed=true"></div>' +
+            '</div>';
+        document.body.appendChild(meetingModal);
+
+        var meetingScriptLoaded = false;
+        var lastMeetingTrigger = null;
+
+        function openMeetingModal(event) {
+            event.preventDefault();
+            lastMeetingTrigger = event.currentTarget;
+            meetingModal.classList.add('is-open');
+            meetingModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('meetings-modal-open');
+
+            if (!meetingScriptLoaded) {
+                var meetingScript = document.createElement('script');
+                meetingScript.type = 'text/javascript';
+                meetingScript.src = 'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js';
+                document.body.appendChild(meetingScript);
+                meetingScriptLoaded = true;
+            }
+
+            meetingModal.querySelector('.meetings-modal__close').focus();
+        }
+
+        function closeMeetingModal() {
+            meetingModal.classList.remove('is-open');
+            meetingModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('meetings-modal-open');
+            if (lastMeetingTrigger) {
+                lastMeetingTrigger.focus();
+            }
+        }
+
+        meetingButtons.forEach(function (button) {
+            button.addEventListener('click', openMeetingModal);
+        });
+        meetingModal.querySelectorAll('[data-meetings-close]').forEach(function (control) {
+            control.addEventListener('click', closeMeetingModal);
+        });
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && meetingModal.classList.contains('is-open')) {
+                closeMeetingModal();
+            }
+        });
+    }
+
     var backTop = document.getElementById('backToTop');
     if (backTop) {
         backTop.addEventListener('click', function () {

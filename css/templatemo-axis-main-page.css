@@ -78,11 +78,21 @@ https://templatemo.com/tm-619-axis-industrial
 .stack__card:nth-child(3) { top: 140px; background: var(--ink); color: var(--base); box-shadow: var(--shadow-safety); }
 .stack__card:nth-child(4) { top: 170px; background: #F0F0EB; }
 
+.stack__card.contact-form-card {
+    background: var(--base);
+    color: var(--ink);
+    box-shadow: var(--shadow);
+}
+
+.stack__card.contact-form-card:hover {
+    box-shadow: 12px 12px 0px var(--ink);
+}
+
 .stack__card:hover { transform: translate(-4px, -4px); box-shadow: 12px 12px 0px var(--ink); }
 .stack__card:nth-child(3):hover { box-shadow: 12px 12px 0px var(--safety); }
 
 .stack__card-left  { grid-column: span 4; }
-.stack__card-right { grid-column: span 8; }
+.stack__card-right { grid-column: span 10; }
 
 .stack__card-step {
     font-family: 'Space Grotesk', sans-serif;
@@ -96,6 +106,46 @@ https://templatemo.com/tm-619-axis-industrial
 .stack__card-title { font-size: var(--fs-h2); margin-bottom: 1rem; }
 .stack__card-text { font-size: var(--fs-data); line-height: 1.8; opacity: 0.7; max-width: 520px; }
 .stack__card-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+
+.hs-form-frame { margin-top: 1rem; }
+
+.meetings-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.meetings-modal.is-open { display: flex; }
+.meetings-modal__backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.78); }
+.meetings-modal__dialog {
+    position: relative;
+    z-index: 1;
+    width: min(760px, 100%);
+    max-height: min(860px, 94vh);
+    overflow: auto;
+    border: var(--border);
+    background: var(--base);
+    box-shadow: 12px 12px 0 var(--safety);
+    color: var(--ink);
+    padding: clamp(1rem, 3vw, 2rem);
+}
+.meetings-modal__header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.meetings-modal__header h2 { font-size: var(--fs-h2); }
+.meetings-modal__close {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 2rem;
+    line-height: 1;
+    padding: 0.15rem 0.4rem;
+}
+.meetings-modal-open { overflow: hidden; }
+.meetings-iframe-container { min-height: 560px; }
 
 .stack__card:nth-child(3) .tag { border-color: var(--base); color: var(--base); background: transparent; }
 .stack__card:nth-child(3) .tag--filled { background: var(--safety); border-color: var(--safety); }
